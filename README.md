@@ -120,6 +120,7 @@ A smaller 1.0.0, without S10 and S11 (grid search only, and statistics from the 
 Later, unscheduled:
 
 - after-tax returns by tax bracket and account type;
+- the file connection from Trial Folio, once its 0.5.0 produces normalized return series: its runs' return series and number of tries, in Proofstone's input format;
 - imports from other tools' exports, such as Portfolio Visualizer, QuantConnect, and broker statements;
 - a browser-only version, served as a static site with the computation on the user's machine;
 - a desktop app, only if installing becomes the main complaint;
@@ -143,7 +144,7 @@ About 3 to 4 weeks to 1.0.0. Review rounds set the pace, not coding: about 8 sli
 | [BacktestProof](https://chromewebstore.google.com/detail/hnanggmnenahjfkobmfmjafimdenkicf) | A Chrome extension that scores exports from NinjaTrader, MetaTrader 5, and TradingView from 0 to 100, including for overfitting |
 | Portfolio Visualizer, testfol.io | Portfolio backtests and optimizers, with licensed data |
 | QuantConnect | A backtesting platform with licensed data |
-| [Trial Folio](https://github.com/promptedportfolio/trialfolio) | This organization's tool for Portfolio123 research. Its roadmap plans descriptive return analytics (0.5.0), statistical evaluation (0.6.0), and grid search (0.7.0), and it doesn't import results produced elsewhere |
+| [Trial Folio](https://github.com/promptedportfolio/trialfolio) | This organization's tool for Portfolio123 research. Its roadmap plans descriptive return analytics (0.5.0), statistical evaluation (0.6.0), and grid search (0.7.0), and it doesn't import results produced elsewhere. The two stay separate and connect through files |
 
 Neither Assayon nor BacktestProof appears to offer portfolios of backtests or Monte Carlo reports.
 
@@ -154,6 +155,7 @@ Neither Assayon nor BacktestProof appears to offer portfolios of backtests or Mo
 1. **The name: Proofstone** (2026-10-22). Chosen over Cupelwork and Luckproof. It was free on PyPI, and no company or product using it was found. A trademark search remains to be done.
 2. **The repository: `promptedportfolio/proofstone`, private for now** (2026-10-22).
 3. **Version 1 is free** (2026-10-22).
+4. **Proofstone and Trial Folio stay separate** (2026-10-22). Proofstone builds its own statistics rather than sharing a library with Trial Folio's 0.5.0 to 0.7.0, so neither project waits on the other's methods. The two connect through files, added once Trial Folio's 0.5.0 produces normalized return series: Trial Folio writes each run's return series and number of tries in Proofstone's input format, and Trial Folio still imports nothing.
 
 ### Open decisions
 
@@ -165,7 +167,5 @@ Neither Assayon nor BacktestProof appears to offer portfolios of backtests or Mo
    **Proposed default:** Observable Plot.
 4. **Who reviews design mockups.** The mockups are thrown away, and the owner's eye is the right check for looks. Agent review would add rounds to the design phase.
    **Proposed default:** the owner only; agent review stays on production code.
-5. **The relationship with Trial Folio's statistics.** Trial Folio's 0.5.0 to 0.7.0 plan descriptive analytics, the deflated Sharpe ratio, the probability of backtest overfitting, and grid search, which Proofstone's engine would also build. One shared library avoids building them twice, but it would have to meet Trial Folio's methods ADR and could slow Proofstone's 1.0.0.
-   **Proposed default:** keep them separate for Proofstone's 1.0.0, and revisit when Trial Folio specifies 0.6.0.
-6. **When the repository becomes public.**
+5. **When the repository becomes public.**
    **Proposed default:** at 1.0.0.
