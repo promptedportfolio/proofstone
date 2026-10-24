@@ -1,0 +1,4 @@
+#!/bin/sh
+# Blocks a commit that would bring the owner's private research into this repository (README.md, Principles).
+# Turned on once per clone: git config core.hooksPath .githooks
+exec python3 "$(git rev-parse --show-toplevel)/scripts/check_private.py" --staged
