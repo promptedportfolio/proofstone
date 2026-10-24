@@ -12,7 +12,7 @@ A touchstone was the stone used to test gold by the streak it left, and the word
 
 ## Status
 
-**Planning. Nothing is built yet.** The repository is private. Version 1 will be free. This README is the working plan; the [open decisions](#open-decisions) at the end each have a proposed default.
+**Planning. Nothing is built yet.** The repository is public but not promoted. Version 1 will be free. This README is the working plan; the [open decisions](#open-decisions) at the end each have a proposed default.
 
 ## What it does
 
@@ -112,7 +112,7 @@ The critical path is S0, S1, S2, S3, S5, S8, S9, then the release. S4, S6, S7, S
 | 0.1.0: first real report | End of week 2 | A CSV of returns produces a finished-looking report; History is real, and the other sections still show sample data |
 | 0.2.0: statistics and Monte Carlo | Week 3 | S6 and S7 are merged |
 | 0.3.0: frontier | Week 3–4 | S8 and S9 are merged |
-| 1.0.0: free public release | Weeks 3–4 | Every section is real, S10 to S12 are merged, the license is chosen, and the repository is public |
+| 1.0.0: free public release | Weeks 3–4 | Every section is real, S10 to S12 are merged, and the license is chosen |
 | 1.1.0: localhost | After 1.0.0, if early users ask | `proofstone serve` re-optimizes live as limits change |
 
 A smaller 1.0.0, without S10 and S11 (grid search only, and statistics from the number of tries only), takes about 2 weeks.
@@ -153,9 +153,10 @@ Neither Assayon nor BacktestProof appears to offer portfolios of backtests or Mo
 ### Decided by owner
 
 1. **The name: Proofstone** (2026-10-22). Chosen over Cupelwork and Luckproof. It was free on PyPI, and no company or product using it was found. A trademark search remains to be done.
-2. **The repository: `promptedportfolio/proofstone`, private for now** (2026-10-22).
+2. **The repository: `promptedportfolio/proofstone`** (2026-10-22), private at first.
 3. **Version 1 is free** (2026-10-22).
 4. **Proofstone and Trial Folio stay separate** (2026-10-22). Proofstone builds its own statistics rather than sharing a library with Trial Folio's 0.5.0 to 0.7.0, so neither project waits on the other's methods. The two connect through files, added once Trial Folio's 0.5.0 produces normalized return series: Trial Folio writes each run's return series and number of tries in Proofstone's input format, and Trial Folio still imports nothing.
+5. **The repository is public from 2026-10-24, not from 1.0.0**, and isn't promoted. Being public lets GitHub require pull requests on `main` without a paid plan. Anything committed is public for good, so a pre-commit hook (`scripts/check_private.py`, set up in [CONTRIBUTING.md](CONTRIBUTING.md)) keeps the owner's private research out.
 
 ### Open decisions
 
@@ -167,5 +168,3 @@ Neither Assayon nor BacktestProof appears to offer portfolios of backtests or Mo
    **Proposed default:** Observable Plot.
 4. **Who reviews design mockups.** The mockups are thrown away, and the owner's eye is the right check for looks. Agent review would add rounds to the design phase.
    **Proposed default:** the owner only; agent review stays on production code.
-5. **When the repository becomes public.**
-   **Proposed default:** at 1.0.0.
