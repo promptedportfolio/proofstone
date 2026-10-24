@@ -14,7 +14,7 @@ A touchstone was the stone used to test gold by the streak it left, and the word
 
 ## Status
 
-**Planning. Nothing is built yet.** The repository is public but not promoted. Version 1 will be free. This README is the working plan; the [open decisions](#open-decisions) at the end each have a proposed default.
+**Planning. Nothing is built yet.** The repository is public but not promoted. Version 1 will be free. This README is the working plan, with the owner's [decisions](#decisions) at the end; each open one has a proposed default.
 
 On 2026-10-24 the owner widened the plan: Proofstone also becomes the backtesting tool for the owner's own strategy research. It adds the data catalog, the strategy engine, the study tracker, strategy reports and the screens that set up tests. Nothing was dropped from the earlier plan.
 
@@ -31,7 +31,7 @@ You add the data, and Proofstone ships none (see [Principles](#principles)).
 
 ### Strategies
 
-A strategy is a type with parameters, and the types take their parameters with no recommended values (open decision 10). Version 1's types cover every test in the owner's research:
+A strategy is a type with parameters, and the types take their parameters with no recommended values (decided 16). Version 1's types cover every test in the owner's research:
 
 | Type | What it does | Its parameters include |
 |---|---|---|
@@ -60,7 +60,7 @@ The study tracker keeps every run, grouped by strategy:
 - **Forward records:** a strategy's out-of-sample record, from data added after its rules were fixed, such as recorded option chains or live returns, kept apart from the history it was designed on.
 - **Decisions:** what became of each test, such as kept, dropped or kept as insurance, and when.
 
-**The strategies page** shows each strategy at its best case (open decision 9), with its return, volatility, Sharpe ratio, worst drawdown, t-statistic, and the t-statistic required for the tests tried. **Each strategy's page** lists all of its tests with the same measures. The required t-statistic rises with the number of tests. At 5%, two-sided, with Bonferroni's correction:
+**The strategies page** shows each strategy at its best case (decided 15), with its return, volatility, Sharpe ratio, worst drawdown, t-statistic, and the t-statistic required for the tests tried. **Each strategy's page** lists all of its tests with the same measures. The required t-statistic rises with the number of tests. At 5%, two-sided, with Bonferroni's correction:
 
 | Tests tried | t-statistic required |
 |---:|---:|
@@ -69,7 +69,7 @@ The study tracker keeps every run, grouped by strategy:
 | 100 | 3.48 |
 | 1,000 | 4.06 |
 
-Which correction applies, and which tries count against a strategy, are open decisions 7 and 8.
+Holm's correction applies, with Benjamini-Hochberg-Yekutieli's beside it, and a strategy's own tests count against it (decided 13 and 14).
 
 ### A strategy's report
 
@@ -120,13 +120,13 @@ Three things set it apart from existing optimizers:
 
 ### The app and the report
 
-**The app** runs on your machine and opens in a browser (open decision 1). It sets up runs, sweeps and planned experiments from the strategy types, shows the strategies page and each strategy's tests and reports, and re-optimizes portfolios live as limits change. Results already computed open at once, and a run shows its progress while it computes.
+**The app** runs on your machine and opens in a browser (decided 7). It sets up runs, sweeps and planned experiments from the strategy types, shows the strategies page and each strategy's tests and reports, and re-optimizes portfolios live as limits change. Results already computed open at once, and a run shows its progress while it computes.
 
 **The report** is one self-contained HTML file that works offline and can be sent as a file. It has interactive charts (hover, toggles, and sliders over results computed in advance, such as frontiers at a grid of Sharpe floors and drawdown caps), light and dark themes, and prints to PDF. The app exports any of its pages as this report.
 
 ## Principles
 
-- **Local first, bring your own data.** Proofstone runs on your machine and ships no market data. Most free market data, such as Yahoo's and exchange and index providers' sites, is licensed for personal use only, and licenses to redistribute it cost far more. You supply series and option chains from your own sources, accounts, or other backtesters. Where Proofstone offers a download, it runs on your machine, under your own terms with the source (open decision 11). Examples use simulated series and public-domain FRED series.
+- **Local first, bring your own data.** Proofstone runs on your machine and ships no market data. Most free market data, such as Yahoo's and exchange and index providers' sites, is licensed for personal use only, and licenses to redistribute it cost far more. You supply series and option chains from your own sources, accounts, or other backtesters. Where Proofstone offers a download, it runs on your machine, under your own terms with the source (decided 17). Examples use simulated series and public-domain FRED series.
 - **A calculator, not an adviser.** You supply the strategies and the limits. Proofstone ships no recommended funds, weights, parameters, or presets, doesn't ask about your finances, and isn't marketed as finding your best portfolio. The Advisers Act's definition of an adviser includes being paid, and ads, affiliate links, or a paid upgrade can count, so a securities lawyer reviews the line before any paid version.
 - **Adjusted beside unadjusted.** Every adjusted or discounted figure is shown next to the raw one, and "doesn't beat chance" is a normal result.
 - **Every run counts.** Making variants cheap to try also makes data mining cheap, so the study tracker records every run as a try, and nothing can be deleted from the count.
@@ -150,7 +150,7 @@ runs from other tools ───────────────────�
 - **Engine:** a Python library for the statistics, Monte Carlo and the optimizer.
 - **Results file:** JSON with a versioned schema, the only contract between the engine and the report or the app. After the design phase, changes to the schema are additions only.
 - **Report renderer:** builds the HTML from a results file alone, so the report can be designed and built before the engine exists.
-- **App:** a local server over the same libraries and results files, with a browser front end (open decisions 1 and 6).
+- **App:** a local server over the same libraries and results files, with a browser front end (decided 7 and 12).
 - **Command line:** commands that write a report or run a specification, for example `proofstone report` for one backtest, `proofstone frontier` for a portfolio of them, `proofstone run` for a run from a specification file, and `proofstone serve` for the app.
 
 Later shells over the same engine and report: a browser-only version and a desktop app.
@@ -219,9 +219,9 @@ The critical path is S0, S1, S2, S3, S5, S8, S9, S13, S14, S18, S20, S22, S24, S
 | 0.7.0: portfolios and accounts | Week 10 | S22 is merged, and its results match the owner's research |
 | 0.8.0: option chains and pricing | Weeks 11–12 | S23 and S24 are merged, with each model's fit error reported |
 | 0.9.0: option strategies and registration | Week 13 | S25 and S26 are merged, and the option strategies' results match the owner's research |
-| 1.0.0: free public release | Weeks 13–14 | Every section is real, S10 to S12 and S27 are merged, and the license is chosen |
+| 1.0.0: free public release | Weeks 13–14 | Every section is real, S10 to S12 and S27 are merged, and the Apache-2.0 license file is added (decided 18) |
 
-The earlier plan's 1.0.0, the analysis half (through 0.3.0, with S10 to S12), takes about 3 to 4 weeks, and without S10 and S11 (grid search only, and statistics from the number of tries only) about 2 weeks. Open decision 5 asks whether to release it first.
+The earlier plan's 1.0.0, the analysis half (through 0.3.0, with S10 to S12), takes about 3 to 4 weeks, and without S10 and S11 (grid search only, and statistics from the number of tries only) about 2 weeks. The owner decided to release everything together instead (decided 11).
 
 Later, unscheduled:
 
@@ -239,7 +239,7 @@ About 3 months to 1.0.0. Review rounds set the pace, not coding: about 14 slices
 
 ### Process
 
-- Production code goes through agent review. Design mockups are reviewed by the owner only, pending the owner's decision.
+- Production code goes through agent review. Design mockups are reviewed by the owner only (decided 10).
 - Each statistic's expected numbers, taken from published worked examples, are written into the spec before its code, so review checks the code against fixed answers instead of re-deriving the math. Each strategy type's expected trades and returns on simulated data are written in the same way, before its code.
 - **Checks against the owner's research.** Each engine slice (S20, S22, S24, S25) is run on the owner's machine against the owner's private research, which already has results for every strategy type, and must match them before it merges. The check, its data and its results stay in the private research. This repository records only that the check passed.
 - Pull requests stay small, and slices that don't depend on each other are reviewed at the same time.
@@ -265,29 +265,20 @@ Neither Assayon nor BacktestProof appears to offer portfolios of backtests or Mo
 3. **Version 1 is free** (2026-10-22).
 4. **Proofstone and Trial Folio stay separate** (2026-10-22). Proofstone builds its own statistics rather than sharing a library with Trial Folio's 0.5.0 to 0.7.0, so neither project waits on the other's methods. The two connect through files, added once Trial Folio's 0.5.0 produces normalized return series: Trial Folio writes each run's return series and number of tries in Proofstone's input format, and Trial Folio still imports nothing. On 2026-10-24 the owner added that Trial Folio stays specialized to Portfolio123, and serves Proofstone only as an example.
 5. **The repository is public from 2026-10-24, not from 1.0.0**, and isn't promoted. Being public lets GitHub require pull requests on `main` without a paid plan. Anything committed is public for good, so a pre-commit hook (`scripts/check_private.py`, set up in [CONTRIBUTING.md](CONTRIBUTING.md)) keeps the owner's private research out.
-6. **Proofstone becomes the backtesting tool too** (2026-10-24). It adds the data catalog, the strategy engine, the study tracker, strategy reports and the screens that set up tests, enough to run every test in the owner's research and to build new ones from added datasets. Nothing is dropped from the earlier plan or from what the owner asked of the tool. The scope grows from about 3 to 4 weeks to about 3 months to 1.0.0, and the form of version 1 needs an app (open decision 1).
+6. **Proofstone becomes the backtesting tool too** (2026-10-24). It adds the data catalog, the strategy engine, the study tracker, strategy reports and the screens that set up tests, enough to run every test in the owner's research and to build new ones from added datasets. Nothing is dropped from the earlier plan or from what the owner asked of the tool. The scope grows from about 3 to 4 weeks to about 3 months to 1.0.0, and the form of version 1 needs an app (decided 7).
+7. **Version 1 is a localhost app** (2026-10-24): a local server with a browser front end over the Python libraries, which exports the self-contained HTML report, with the command line kept for scripted runs. It adds about 2 weeks over a command-line tool with a report, which could only show results, and it re-optimizes live. A desktop app would have added 2 weeks or more on top, plus code signing and testing on three platforms.
+8. **The license: Apache-2.0** (2026-10-24). It keeps a later paid layer possible and includes a patent grant. MIT would have been the simplest, AGPL would keep hosted copies open, and the Nathan Slaughter Personal Research License 1.1, which Trial Folio uses, is source-available rather than open source.
+9. **The chart library: Observable Plot** (2026-10-24), embedded so the report works offline, and used by the app too. It's small, with handsome defaults that are easy to theme. Vega-Lite charts are JSON that Python can write directly, ECharts has polished interactions but a large file, and Plotly looks generic and is about 3.5 MB.
+10. **Design mockups are reviewed by the owner only** (2026-10-24), and agent review stays on production code. The mockups are thrown away, so the owner's eye is the right check for looks, and agent review would have added rounds to the design phase.
+11. **1.0.0 contains everything in this plan** (2026-10-24), about 3 months away. Releasing the analysis half as 1.0.0 in about 3 to 4 weeks, with the engine, tracker and app as 2.0.0, would have brought public feedback sooner, but on the part the owner's own research needs least.
+12. **The app's front end: React with TypeScript** (2026-10-24), as in Portfolio Workbench, this organization's desktop app, with the most components and help. Svelte is smaller and quick, with fewer libraries, and pages rendered by the Python server with htmx would keep everything in Python but suit live charts and sliders less well. Under any of them, the speed comes mostly from computing results in advance and caching runs.
+13. **The required t-statistic uses Holm's correction** (2026-10-24), which for the best test equals Bonferroni's, the strictest, with Benjamini-Hochberg-Yekutieli's beside it and the deflated Sharpe ratio as in Statistics. Benjamini, Hochberg and Yekutieli's false discovery rate is less strict and needs every test's p-value. Harvey, Liu and Zhu's thresholds come from the factor literature.
+14. **A strategy's own tests count against it** (2026-10-24), with the whole tracker's count and, where it can be computed, the effective number of tries beside them. Counting every test run on the same history would be stricter. The effective number of tries (S10) discounts near-identical versions but needs every version's return series.
+15. **A strategy's best case is the version kept** (2026-10-24), marked, with the best-scoring version beside it, or the best-scoring one when none was kept. The kept version reflects the decision actually made, and the best-scoring one is the one the required t-statistic discounts.
+16. **The strategy types' parameters have no defaults** (2026-10-24): every parameter is required, and examples on simulated data show their parameters as examples only. Defaults would make the app quicker to try, but they read as presets, which "a calculator, not an adviser" rules out.
+17. **Downloads: file import and FRED in version 1** (2026-10-24), and downloads from other free sources, such as exchanges' delayed quotes, index providers and Yahoo, later, each after a check of its source's terms. FRED's series are in the public domain. The other downloads would run on the user's machine under the user's own terms with each source.
+18. **The license file goes in with 1.0.0** (2026-10-24). Until then the public repository is all rights reserved, as a repository with no license is: it can be read but not reused. Adding Apache-2.0's file now would have let anyone reuse the plan, and any code, from today.
 
 ### Open decisions
 
-1. **The form of version 1.** A command-line tool that writes a self-contained HTML report adds no time and is easy to share, but it can only show results: setting up tests needs an app. A localhost app, a local server with a browser front end over the Python libraries, adds about 2 weeks and re-optimizes live. A desktop app adds 2 weeks or more on top, plus code signing and testing on three platforms. The earlier default was the command-line tool and HTML report, with localhost in 1.1.0.
-   **Proposed default:** the localhost app, which exports the self-contained HTML report, with the command line kept for scripted runs.
-2. **The license.** Apache-2.0 keeps a later paid layer possible and includes a patent grant. MIT is the simplest. AGPL keeps hosted copies open. The Nathan Slaughter Personal Research License 1.1, which Trial Folio uses, is source-available rather than open source.
-   **Proposed default:** Apache-2.0.
-3. **The chart library, embedded so the report works offline.** Observable Plot is small, with handsome defaults that are easy to theme. Vega-Lite charts are JSON that Python can write directly. ECharts has polished interactions but a large file. Plotly looks generic and is about 3.5 MB. The app uses the same library.
-   **Proposed default:** Observable Plot.
-4. **Who reviews design mockups.** The mockups are thrown away, and the owner's eye is the right check for looks. Agent review would add rounds to the design phase.
-   **Proposed default:** the owner only; agent review stays on production code.
-5. **What 1.0.0 contains.** Everything above makes 1.0.0 about 3 months away. Releasing the analysis half as 1.0.0 in about 3 to 4 weeks, with the engine, tracker and app as 2.0.0, gets public feedback sooner, but on the part the owner's own research needs least.
-   **Proposed default:** everything in 1.0.0.
-6. **The app's front end.** React with TypeScript is what Portfolio Workbench, this organization's desktop app, uses, and it has the most components and help. Svelte is smaller and quick, with fewer libraries. Pages rendered by the Python server with htmx keep everything in Python, with the fewest moving parts, but suit live charts and sliders less well. Under any of them, the speed comes mostly from computing results in advance and caching runs.
-   **Proposed default:** React with TypeScript.
-7. **The correction behind the required t-statistic.** Bonferroni's is the strictest, and for the best test it equals Holm's. Benjamini, Hochberg and Yekutieli's false discovery rate is less strict and needs every test's p-value. Harvey, Liu and Zhu's thresholds come from the factor literature.
-   **Proposed default:** Holm's (Bonferroni's for the best test), with Benjamini-Hochberg-Yekutieli's beside it, and the deflated Sharpe ratio as in Statistics.
-8. **Which tries count against a strategy.** A strategy's own tests give the count that matches the question asked of it. Every test run on the same history counts the whole search, which is stricter. The effective number of tries (S10) discounts near-identical versions but needs every version's return series.
-   **Proposed default:** the strategy's own tests, with the whole tracker's count and, where it can be computed, the effective number beside it.
-9. **A strategy's best case.** The version you kept reflects the decision actually made. The best-scoring version is the one the required t-statistic discounts.
-   **Proposed default:** the kept version, marked, with the best-scoring one beside it, or the best-scoring one when none was kept.
-10. **Defaults for the strategy types' parameters.** Defaults make the app quicker to try, but they read as presets, which "a calculator, not an adviser" rules out.
-    **Proposed default:** every parameter required, with no defaults; examples on simulated data show their parameters as examples only.
-11. **Downloads.** File import works for every source. FRED's series are in the public domain. Downloads from other free sources, such as exchanges' delayed quotes, index providers and Yahoo, would run on the user's machine under the user's own terms with each source.
-    **Proposed default:** file import and FRED in version 1, and other downloads later, each after a check of its source's terms.
+None.
