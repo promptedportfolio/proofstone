@@ -219,7 +219,7 @@ The critical path is S0, S1, S2, S3, S5, S8, S9, S13, S14, S18, S20, S22, S24, S
 | 0.7.0: portfolios and accounts | Week 10 | S22 is merged, and its results match the owner's research |
 | 0.8.0: option chains and pricing | Weeks 11–12 | S23 and S24 are merged, with each model's fit error reported |
 | 0.9.0: option strategies and registration | Week 13 | S25 and S26 are merged, and the option strategies' results match the owner's research |
-| 1.0.0: free public release | Weeks 13–14 | Every section is real, S10 to S12 and S27 are merged, and the license file is added (open decision 1) |
+| 1.0.0: free public release | Weeks 13–14 | Every section is real, S10 to S12 and S27 are merged, and the Apache-2.0 license file is added (decided 18) |
 
 The earlier plan's 1.0.0, the analysis half (through 0.3.0, with S10 to S12), takes about 3 to 4 weeks, and without S10 and S11 (grid search only, and statistics from the number of tries only) about 2 weeks. The owner decided to release everything together instead (decided 11).
 
@@ -277,8 +277,8 @@ Neither Assayon nor BacktestProof appears to offer portfolios of backtests or Mo
 15. **A strategy's best case is the version kept** (2026-10-24), marked, with the best-scoring version beside it, or the best-scoring one when none was kept. The kept version reflects the decision actually made, and the best-scoring one is the one the required t-statistic discounts.
 16. **The strategy types' parameters have no defaults** (2026-10-24): every parameter is required, and examples on simulated data show their parameters as examples only. Defaults would make the app quicker to try, but they read as presets, which "a calculator, not an adviser" rules out.
 17. **Downloads: file import and FRED in version 1** (2026-10-24), and downloads from other free sources, such as exchanges' delayed quotes, index providers and Yahoo, later, each after a check of its source's terms. FRED's series are in the public domain. The other downloads would run on the user's machine under the user's own terms with each source.
+18. **The license file goes in with 1.0.0** (2026-10-24). Until then the public repository is all rights reserved, as a repository with no license is: it can be read but not reused. Adding Apache-2.0's file now would have let anyone reuse the plan, and any code, from today.
 
 ### Open decisions
 
-1. **When the license file goes in.** Adding Apache-2.0's file now lets anyone reuse the plan, and any code, from today. Adding it with 1.0.0 keeps the public repository all rights reserved until the release, as a repository with no license is.
-   **Proposed default:** with 1.0.0.
+None.
