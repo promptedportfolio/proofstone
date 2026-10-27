@@ -18,6 +18,8 @@ A touchstone was the stone used to test gold by the streak it left, and the word
 
 On 2026-10-24 the owner widened the plan: Proofstone also becomes the backtesting tool for the owner's own strategy research. It adds the data catalog, the strategy engine, the study tracker, strategy reports and the screens that set up tests. Nothing was dropped from the earlier plan.
 
+On 2026-10-27 the owner set Proofstone's place among the apps the research could feed: it tests strategies and combines them, with options and equities as strategy types inside it, and running strategies in real accounts lives outside it (see [Proofstone among the apps](#proofstone-among-the-apps)). Four questions it raises are [open](#open-decisions), each with a proposed default.
+
 ## What it does
 
 ### Data
@@ -132,6 +134,16 @@ Three things set it apart from existing optimizers:
 - **Every run counts.** Making variants cheap to try also makes data mining cheap, so the study tracker records every run as a try, and nothing can be deleted from the count.
 - **Nothing private comes in.** No data, results, or account details from the owner's private research enter this repository. Code from that research is rewritten for general inputs, not copied with its assumptions. The owner's research uses Proofstone as any user would: on the owner's machine, its series and runs are exported into Proofstone's input formats, and its results check the engine (see [Process](#process)). None of that enters this repository.
 
+## Proofstone among the apps
+
+The owner's research could feed several apps: one that tests a strategy, one that finds portfolios within limits by simulation, one for option strategies and one for equity strategies. The owner decided to divide them by the job they do, not by asset class (decided 19):
+
+- **Proofstone tests and allocates.** Building and testing strategies, the study tracker, and combining strategies into portfolios stay one app. Options and equities are strategy types inside it, not apps of their own. Every strategy ends as a return series that the same tests judge and the same optimizer combines, and the comparisons that matter most cross asset classes, such as an option strategy against the stock exposure it carries. Only the part that makes the series belongs to an asset class: pricing options at quotes or on a model, or holding stocks and funds. Option traders and equity investors can each have a page of their own about Proofstone, over the one app.
+- **Running strategies lives outside Proofstone.** Signals, order lists, the trade journal, fills against the quotes and the returns of real accounts need account data and broker files, which Proofstone never asks for ("a calculator, not an adviser"). They run on a different cadence, each day or week rather than when a study runs, and they hold real positions. Where they live is open decision 2. Either way, the app that runs them takes Proofstone's registered strategies and allocations as files, and its actual returns come back to Proofstone as forward records (S26), so a strategy's live record sits beside its registration.
+- **A household's taxes belong to allocating.** Comparing allocations after tax, lot by lot, across a taxable account and a tax-deferred one held together, and where each holding should sit between them, is part of combining strategies. Taxes on real trades as they're placed belong to the app that runs them. Whether Proofstone's part is in 1.0.0 is open decision 1.
+- **A public registry of studies** could show registrations, frozen with their hashes before they ran, beside their forward records and the studies that failed, as an opt-in, outward face of the study tracker. Its form and timing are open decision 3.
+- **The data catalog stays inside Proofstone,** as the testing side's infrastructure, not an app of its own.
+
 ## Architecture
 
 ```text
@@ -229,7 +241,10 @@ Later, unscheduled:
 - imports from other tools' exports, such as Portfolio Visualizer, QuantConnect, and broker statements;
 - a browser-only version, served as a static site with the computation on the user's machine;
 - a desktop app, only if installing becomes the main complaint;
-- a paid layer, after a securities lawyer's review.
+- a paid layer, after a securities lawyer's review;
+- the file connection with the app that runs strategies (open decision 2): registered strategies and allocations out, actual returns back in as forward records;
+- the public registry of studies, if the owner keeps its proposed default (open decision 3);
+- a stock-selection strategy type, if the owner keeps its proposed default (open decision 4).
 
 After-tax returns by tax bracket and account type, earlier in this list, are now in S22, since the owner's research tests them.
 
@@ -252,6 +267,7 @@ About 3 months to 1.0.0. Review rounds set the pace, not coding: about 14 slices
 | [BacktestProof](https://chromewebstore.google.com/detail/hnanggmnenahjfkobmfmjafimdenkicf) | A Chrome extension that scores exports from NinjaTrader, MetaTrader 5, and TradingView from 0 to 100, including for overfitting |
 | Portfolio Visualizer, testfol.io | Portfolio backtests and optimizers, with licensed data |
 | QuantConnect | A backtesting platform with licensed data |
+| Portfolio Workbench | This organization's local desktop app for running an equity and ETF investment process: ideas become theses and conviction, conviction becomes target weights, and every decision is recorded. It exports trade lists for the broker and never places orders, reads brokers' reports with read-only credentials, and plans tax-aware execution and attribution. Its front end is the model for Proofstone's (decided 12), and it's the proposed home for running strategies (open decision 2) |
 | [Trial Folio](https://github.com/promptedportfolio/trialfolio) | This organization's tool for Portfolio123 research, kept specialized to it. Its roadmap plans descriptive return analytics (0.5.0), statistical evaluation (0.6.0), and grid search (0.7.0), and it doesn't import results produced elsewhere. The two stay separate and connect through files. For Proofstone it's an example: settings recorded beside results, planned experiments under one approval and budget, safe resume, and runs compared by the settings that differ |
 
 Neither Assayon nor BacktestProof appears to offer portfolios of backtests or Monte Carlo reports.
@@ -278,7 +294,15 @@ Neither Assayon nor BacktestProof appears to offer portfolios of backtests or Mo
 16. **The strategy types' parameters have no defaults** (2026-10-24): every parameter is required, and examples on simulated data show their parameters as examples only. Defaults would make the app quicker to try, but they read as presets, which "a calculator, not an adviser" rules out.
 17. **Downloads: file import and FRED in version 1** (2026-10-24), and downloads from other free sources, such as exchanges' delayed quotes, index providers and Yahoo, later, each after a check of its source's terms. FRED's series are in the public domain. The other downloads would run on the user's machine under the user's own terms with each source.
 18. **The license file goes in with 1.0.0** (2026-10-24). Until then the public repository is all rights reserved, as a repository with no license is: it can be read but not reused. Adding Apache-2.0's file now would have let anyone reuse the plan, and any code, from today.
+19. **Proofstone's place among the apps: divided by job, not asset class** (2026-10-27). Proofstone tests strategies and combines them, with options and equities as strategy types; running strategies in real accounts lives outside it, connected through files; a household's after-tax comparisons belong to allocating; and a public registry would be an outward face of the study tracker ([Proofstone among the apps](#proofstone-among-the-apps)). Separate apps for options and for equities would each need their own tests, tracker and optimizer, and couldn't compare one asset class with the other. One app for everything would bring account data and broker files into an app built not to ask for them.
 
 ### Open decisions
 
-None.
+1. **A household's taxes, lot by lot, in 1.0.0.** S22 computes after-tax returns by tax bracket and account type. Comparing allocations for a household needs more: each holding taxed lot by lot by its character (a stock fund, a bond fund, a gold fund at the collectibles rate, a Section 1256 contract, T-bills), first in, first out, with wash sales and losses carried forward; harvesting losses into a substitute fund; each holding traded on its own schedule; and a taxable account and a tax-deferred one added together as a household. As a new slice, S28, after S22, it would land with 0.7.0 and add about 1 to 2 weeks; decided 6 and 11 put every test of the owner's research in 1.0.0, and the research compares allocations this way. After 1.0.0, Proofstone's after-tax results would stay at S22's until then.
+   **Proposed default:** S28 in 1.0.0, with 0.7.0.
+2. **Where running strategies lives.** Portfolio Workbench already plans most of it for an equity and ETF process: the decision journal, trade lists for the broker (it never places orders), read-only broker connectors, tax-aware execution and attribution. It lacks signals from rules, such as a timing rule's switches, and option positions with their rolls and exits. Extending it keeps one app for real accounts, but widens a product built around a discretionary process. A new app would fit rules and option strategies from the start, and repeat the journal, the connectors and the tax work.
+   **Proposed default:** Portfolio Workbench, with rules' signals and option positions added in its own plan, where the owner decides its scope, connected to Proofstone through files.
+3. **The registry's form and timing.** An author would publish a registration, by choice, as a file with its hash, to a public git repository or a page of The Prompted Portfolio, whose commit dates it before the study runs, and add its forward records later from the same files. That needs no hosted service, so Proofstone stays local first. A hosted registry with accounts would be easier to browse and search, but it's a service to run and moderate.
+   **Proposed default:** after 1.0.0, published as files to a public git repository, with no hosted service.
+4. **A stock-selection strategy type.** A type that ranks a universe of stocks on chosen measures and holds the top names, rebalanced on a schedule. The data is the hard part: a universe without survivorship bias, with delisted stocks and fundamentals as they were known at the time, needs licensed data, which Proofstone doesn't ship. Without it, equity strategies come in as series from the tools that build them (sleeve from a series, or runs from other tools, such as Trial Folio's).
+   **Proposed default:** later, unscheduled, after 1.0.0.
