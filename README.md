@@ -18,7 +18,7 @@ A touchstone was the stone used to test gold by the streak it left, and the word
 
 On 2026-10-24 the owner widened the plan: Proofstone also becomes the backtesting tool for the owner's own strategy research. It adds the data catalog, the strategy engine, the study tracker, strategy reports and the screens that set up tests. Nothing was dropped from the earlier plan.
 
-On 2026-10-27 the owner decided Proofstone stays one app, divided into modules by job rather than by asset class: testing and allocating in 1.0.0, with options and equities as strategy types, and running strategies in real accounts as a later module (see [One app, in modules](#one-app-in-modules)). Four questions it raises are [open](#open-decisions), each with a proposed default.
+On 2026-10-27 the owner decided Proofstone stays one app, divided into modules by job rather than by asset class: testing and allocating in 1.0.0, with options and equities as strategy types, and running strategies in real accounts as a later module (see [One app, in modules](#one-app-in-modules)). The owner took the proposed defaults for the four questions it raised, and chose a sidebar for the app's navigation (decided 20 to 24).
 
 ## What it does
 
@@ -122,14 +122,14 @@ Three things set it apart from existing optimizers:
 
 ### The app and the report
 
-**The app** runs on your machine and opens in a browser (decided 7). It sets up runs, sweeps and planned experiments from the strategy types, shows the strategies page and each strategy's tests and reports, and re-optimizes portfolios live as limits change. Results already computed open at once, and a run shows its progress while it computes.
+**The app** runs on your machine and opens in a browser (decided 7). It sets up runs, sweeps and planned experiments from the strategy types, shows the strategies page and each strategy's tests and reports, and re-optimizes portfolios live as limits change. Results already computed open at once, and a run shows its progress while it computes. Its modules are listed in a sidebar, each with its screens beneath it, which collapses to icons to give charts and wide tables room. A module can be hidden, except the study tracker, since every run counts, and tabs within a screen switch among views of one thing, such as a run's trades, returns, risk and statistics (decided 24).
 
 **The report** is one self-contained HTML file that works offline and can be sent as a file. It has interactive charts (hover, toggles, and sliders over results computed in advance, such as frontiers at a grid of Sharpe floors and drawdown caps), light and dark themes, and prints to PDF. The app exports any of its pages as this report.
 
 ## Principles
 
 - **Local first, bring your own data.** Proofstone runs on your machine and ships no market data. Most free market data, such as Yahoo's and exchange and index providers' sites, is licensed for personal use only, and licenses to redistribute it cost far more. You supply series and option chains from your own sources, accounts, or other backtesters. Where Proofstone offers a download, it runs on your machine, under your own terms with the source (decided 17). Examples use simulated series and public-domain FRED series.
-- **A calculator, not an adviser.** You supply the strategies and the limits. Proofstone ships no recommended funds, weights, parameters, or presets, and isn't marketed as finding your best portfolio. It asks about your finances only in the run module (open decision 2), which holds your positions and account values on your machine, and even there it recommends nothing: its signals are your own strategies' rules applied to the day's data. The Advisers Act's definition of an adviser includes being paid, and ads, affiliate links, or a paid upgrade can count, so a securities lawyer reviews the line, the run module included, before any paid version.
+- **A calculator, not an adviser.** You supply the strategies and the limits. Proofstone ships no recommended funds, weights, parameters, or presets, and isn't marketed as finding your best portfolio. It asks about your finances only in the run module (decided 21), which holds your positions and account values on your machine, and even there it recommends nothing: its signals are your own strategies' rules applied to the day's data. The Advisers Act's definition of an adviser includes being paid, and ads, affiliate links, or a paid upgrade can count, so a securities lawyer reviews the line, the run module included, before any paid version.
 - **Adjusted beside unadjusted.** Every adjusted or discounted figure is shown next to the raw one, and "doesn't beat chance" is a normal result.
 - **Every run counts.** Making variants cheap to try also makes data mining cheap, so the study tracker records every run as a try, and nothing can be deleted from the count.
 - **Nothing private comes in.** No data, results, or account details from the owner's private research enter this repository. Code from that research is rewritten for general inputs, not copied with its assumptions. The owner's research uses Proofstone as any user would: on the owner's machine, its series and runs are exported into Proofstone's input formats, and its results check the engine (see [Process](#process)). None of that enters this repository.
@@ -139,9 +139,9 @@ Three things set it apart from existing optimizers:
 The owner's research could feed several apps: one that tests a strategy, one that finds portfolios within limits by simulation, one for option strategies and one for equity strategies. The owner decided on one app, Proofstone, divided into modules by the job each does, not by asset class (decided 19):
 
 - **Testing and allocating are 1.0.0's modules:** the data catalog, strategies and their runs, the study tracker, and portfolios of strategies. Options and equities are strategy types inside them, not apps or modules of their own. Every strategy ends as a return series that the same tests judge and the same optimizer combines, and the comparisons that matter most cross asset classes, such as an option strategy against the stock exposure it carries. Only the part that makes the series belongs to an asset class: pricing options at quotes or on a model, or holding stocks and funds. Option traders and equity investors can each have a page of their own about Proofstone, over the one app.
-- **Running strategies is a later module** (open decision 2): today's signals from a strategy's rules, order lists, the trade journal, positions and account values, fills against the quotes, and the returns of real accounts. Its signals come from the same strategy engine as the backtests, so the rule traded is the rule tested, and its actual returns become each strategy's forward record (S26), beside its registration, as they come in. Its data stays on the user's machine, like everything else in Proofstone.
-- **A household's taxes belong to allocating.** Comparing allocations after tax, lot by lot, across a taxable account and a tax-deferred one held together, and where each holding should sit between them, is part of combining strategies, and the run module would apply the same rules to real trades. Whether this is in 1.0.0 is open decision 1.
-- **A public registry of studies sits outside the app:** registrations, frozen with their hashes before they ran, published beside their forward records and the studies that failed, as an opt-in, outward face of the study tracker. Its form and timing are open decision 3.
+- **Running strategies is a later module,** after 1.0.0 and off until the user turns it on (decided 21): today's signals from a strategy's rules, order lists, the trade journal, positions and account values, fills against the quotes, and the returns of real accounts. Its signals come from the same strategy engine as the backtests, so the rule traded is the rule tested, and its actual returns become each strategy's forward record (S26), beside its registration, as they come in. It writes order lists that the user enters at the broker, and places no orders itself. Its data stays on the user's machine, like everything else in Proofstone.
+- **A household's taxes belong to allocating.** Comparing allocations after tax, lot by lot, across a taxable account and a tax-deferred one held together, and where each holding should sit between them, is part of combining strategies, and the run module would apply the same rules to real trades. It's in 1.0.0, as S28 (decided 20).
+- **A public registry of studies sits outside the app:** registrations, frozen with their hashes before they ran, published beside their forward records and the studies that failed, as an opt-in, outward face of the study tracker. It comes after 1.0.0, as files published to a public git repository, with no hosted service (decided 22).
 
 ## Architecture
 
@@ -162,7 +162,7 @@ runs from other tools ───────────────────�
 - **Results file:** JSON with a versioned schema, the only contract between the engine and the report or the app. After the design phase, changes to the schema are additions only.
 - **Report renderer:** builds the HTML from a results file alone, so the report can be designed and built before the engine exists.
 - **App:** a local server over the same libraries and results files, with a browser front end (decided 7 and 12).
-- **Run module** (later, open decision 2): signals from the strategy engine, order lists, the trade journal, positions and actual returns, which become the study tracker's forward records.
+- **Run module** (after 1.0.0, decided 21): signals from the strategy engine, order lists, the trade journal, positions and actual returns, which become the study tracker's forward records.
 - **Command line:** commands that write a report or run a specification, for example `proofstone report` for one backtest, `proofstone frontier` for a portfolio of them, `proofstone run` for a run from a specification file, and `proofstone serve` for the app.
 
 Later shells over the same engine and report: a browser-only version and a desktop app.
@@ -178,7 +178,7 @@ The report is built first, against made-up results, and the engine fills it in s
 3. **Production report and a thin real slice (week 2).** The chosen design becomes the report's components. Beside it, the first slice runs end to end: CSV in, growth and drawdowns out, in the real report.
 4. **Slices (weeks 3–5).** Each engine slice switches one report section from sample data to real results, in a report that already looks finished.
 5. **The tracker, strategy reports and the app (weeks 6–9).** Runs from files fill the study tracker and the strategy reports, then the app shows them and sets up runs.
-6. **The strategy engine (weeks 9–14).** Strategy types arrive in three groups: series strategies, portfolios and accounts, then option strategies, after the chain store and the pricing models. Each group is checked against the owner's research before it's merged (see [Process](#process)).
+6. **The strategy engine (weeks 9–14).** Strategy types arrive in three groups: series strategies, portfolios and accounts with a household's taxes, then option strategies, after the chain store and the pricing models. Each group is checked against the owner's research before it's merged (see [Process](#process)).
 
 ### Slices
 
@@ -214,8 +214,9 @@ Each slice is one pull request, or a few, lands with its tests, and leaves the r
 | S25 | Engine III, option strategies: credit spreads and ladders of them, condors, long options as hedges, their exits, entry filters, sizing and collateral | Option strategies | S22, S24 |
 | S26 | Registration and forward records: frozen specifications with hashes, decisions, and out-of-sample records from data added over time | Registrations, forward records | S14, S21 |
 | S27 | Docs II: the strategy types, the data formats and adapters, and the study tracker, with examples on simulated and FRED data | — | S20–S26 |
+| S28 | A household's taxes, lot by lot: each holding taxed by its character, first in, first out, with wash sales and losses carried forward; harvesting losses into a substitute fund; each holding traded on its own schedule; a taxable account and a tax-deferred one added together as a household, and where each holding sits between them (decided 20) | Households after tax | S22 |
 
-The critical path is S0, S1, S2, S3, S5, S8, S9, S13, S14, S18, S20, S22, S24, S25, then the release. S4, S6, S7, S10, S11, S12, S15–S17, S19, S21, S23, S26 and S27 run beside it.
+The critical path is S0, S1, S2, S3, S5, S8, S9, S13, S14, S18, S20, S22, S24, S25, then the release. S4, S6, S7, S10, S11, S12, S15–S17, S19, S21, S23, S26, S27 and S28 run beside it.
 
 ### Milestones and versions
 
@@ -228,7 +229,7 @@ The critical path is S0, S1, S2, S3, S5, S8, S9, S13, S14, S18, S20, S22, S24, S
 | 0.4.0: study tracker | Week 6 | S13 and S14 are merged: runs from files show on the strategies page and each strategy's tests, with the required t-statistic |
 | 0.5.0: strategy reports | Week 7 | S15, S16 and S17 are merged: trades, returns on the three bases, risk statistics, discounts and comparisons are real |
 | 0.6.0: the app and series strategies | Weeks 8–9 | S18, S19, S20 and S21 are merged: the app sets up and runs series strategies and shows every page |
-| 0.7.0: portfolios and accounts | Week 10 | S22 is merged, and its results match the owner's research |
+| 0.7.0: portfolios, accounts and households | Weeks 10–11 | S22 and S28 are merged, and their results match the owner's research |
 | 0.8.0: option chains and pricing | Weeks 11–12 | S23 and S24 are merged, with each model's fit error reported |
 | 0.9.0: option strategies and registration | Week 13 | S25 and S26 are merged, and the option strategies' results match the owner's research |
 | 1.0.0: free public release | Weeks 13–14 | Every section is real, S10 to S12 and S27 are merged, and the Apache-2.0 license file is added (decided 18) |
@@ -242,21 +243,21 @@ Later, unscheduled:
 - a browser-only version, served as a static site with the computation on the user's machine;
 - a desktop app, only if installing becomes the main complaint;
 - a paid layer, after a securities lawyer's review;
-- the run module, if the owner keeps its proposed default (open decision 2);
-- the public registry of studies, if the owner keeps its proposed default (open decision 3);
-- a stock-selection strategy type, if the owner keeps its proposed default (open decision 4).
+- the run module, off until the user turns it on, with order lists and no order placement (decided 21);
+- the public registry of studies, as files in a public git repository (decided 22);
+- a stock-selection strategy type, for users who can supply a universe without survivorship bias (decided 23).
 
 After-tax returns by tax bracket and account type, earlier in this list, are now in S22, since the owner's research tests them.
 
 ### Timeline
 
-About 3 months to 1.0.0. Review rounds set the pace, not coding: about 14 slices are in sequence, and at two agent review rounds each that's about 28 rounds, or about 14 working days at half a day per round. Getting the statistics right (2 to 3 days), the option pricing and its checks (1 to 2 weeks), the checks against the owner's research (a day or two for each engine slice), and the design rounds (5 to 7 days, overlapping other work) add the rest. The app, rather than a command-line tool with a report, adds about 2 weeks.
+About 3 months to 1.0.0. Review rounds set the pace, not coding: about 14 slices are in sequence, and at two agent review rounds each that's about 28 rounds, or about 14 working days at half a day per round. Getting the statistics right (2 to 3 days), the option pricing and its checks (1 to 2 weeks), the checks against the owner's research (a day or two for each engine slice), and the design rounds (5 to 7 days, overlapping other work) add the rest. The app, rather than a command-line tool with a report, adds about 2 weeks, and a household's taxes (S28) about 1 to 2 more.
 
 ### Process
 
 - Production code goes through agent review. Design mockups are reviewed by the owner only (decided 10).
 - Each statistic's expected numbers, taken from published worked examples, are written into the spec before its code, so review checks the code against fixed answers instead of re-deriving the math. Each strategy type's expected trades and returns on simulated data are written in the same way, before its code.
-- **Checks against the owner's research.** Each engine slice (S20, S22, S24, S25) is run on the owner's machine against the owner's private research, which already has results for every strategy type, and must match them before it merges. The check, its data and its results stay in the private research. This repository records only that the check passed.
+- **Checks against the owner's research.** Each engine slice (S20, S22, S24, S25, S28) is run on the owner's machine against the owner's private research, which already has results for every strategy type, and must match them before it merges. The check, its data and its results stay in the private research. This repository records only that the check passed.
 - Pull requests stay small, and slices that don't depend on each other are reviewed at the same time.
 
 ## Related tools
@@ -267,7 +268,7 @@ About 3 months to 1.0.0. Review rounds set the pace, not coding: about 14 slices
 | [BacktestProof](https://chromewebstore.google.com/detail/hnanggmnenahjfkobmfmjafimdenkicf) | A Chrome extension that scores exports from NinjaTrader, MetaTrader 5, and TradingView from 0 to 100, including for overfitting |
 | Portfolio Visualizer, testfol.io | Portfolio backtests and optimizers, with licensed data |
 | QuantConnect | A backtesting platform with licensed data |
-| Portfolio Workbench | This organization's local desktop app for running an equity and ETF investment process: ideas become theses and conviction, conviction becomes target weights, and every decision is recorded. For Proofstone it's an example: its front end is the model for Proofstone's (decided 12), and its decision journal, its trade lists for the broker (it never places orders) and its connectors that read brokers' reports with read-only credentials are examples for the run module (open decision 2) |
+| Portfolio Workbench | This organization's local desktop app for running an equity and ETF investment process: ideas become theses and conviction, conviction becomes target weights, and every decision is recorded. For Proofstone it's an example: its front end is the model for Proofstone's (decided 12), and its decision journal, its trade lists for the broker (it never places orders) and its connectors that read brokers' reports with read-only credentials are examples for the run module (decided 21) |
 | [Trial Folio](https://github.com/promptedportfolio/trialfolio) | This organization's tool for Portfolio123 research, kept specialized to it. Its roadmap plans descriptive return analytics (0.5.0), statistical evaluation (0.6.0), and grid search (0.7.0), and it doesn't import results produced elsewhere. The two stay separate and connect through files. For Proofstone it's an example: settings recorded beside results, planned experiments under one approval and budget, safe resume, and runs compared by the settings that differ |
 
 Neither Assayon nor BacktestProof appears to offer portfolios of backtests or Monte Carlo reports.
@@ -296,13 +297,12 @@ Neither Assayon nor BacktestProof appears to offer portfolios of backtests or Mo
 18. **The license file goes in with 1.0.0** (2026-10-24). Until then the public repository is all rights reserved, as a repository with no license is: it can be read but not reused. Adding Apache-2.0's file now would have let anyone reuse the plan, and any code, from today.
 19. **One app, divided into modules by job, not by asset class** (2026-10-27). Proofstone tests strategies and combines them, with options and equities as strategy types, and running strategies in real accounts becomes a later module of it; a household's after-tax comparisons belong to allocating; and a public registry, outside the app, would be an outward face of the study tracker ([One app, in modules](#one-app-in-modules)). Separate apps for options and for equities would each need their own tests, tracker and optimizer, and couldn't compare one asset class with the other. A separate app for running strategies would need Proofstone's strategy engine for its signals anyway, and a connection both ways for forward records; its one advantage, keeping account data out of Proofstone, matters less in a local app, where that data stays on the user's machine either way. "A calculator, not an adviser" now lets the run module hold positions and account values.
 
+20. **A household's taxes, lot by lot, in 1.0.0** (2026-10-27), as S28, after S22 and with 0.7.0: each holding taxed lot by lot by its character (a stock fund, a bond fund, a gold fund at the collectibles rate, a Section 1256 contract, T-bills), first in, first out, with wash sales and losses carried forward; harvesting losses into a substitute fund; each holding traded on its own schedule; and a taxable account and a tax-deferred one added together as a household. It adds about 1 to 2 weeks. Leaving it until after 1.0.0 would have kept after-tax results at S22's, by tax bracket and account type, until then.
+21. **The run module comes after 1.0.0** (2026-10-27), off until the user turns it on: today's signals from the strategy types, order lists that the user enters at the broker, the trade journal, positions and account values read from brokers' reports with read-only credentials, fills against the quotes, and actual returns as forward records. It places no orders, so Proofstone never holds credentials that can trade. In 1.0.0 it would have added several weeks, and placing orders through brokers' interfaces would have saved the user a step but held such credentials and widened the securities lawyer's review.
+22. **The registry comes after 1.0.0, as files** (2026-10-27): an author publishes a registration, by choice, as a file with its hash to a public git repository, whose commit dates it before the study runs, and adds its forward records later from the same files. With no hosted service, Proofstone stays local first. A hosted registry with accounts would have been easier to browse and search, but it would be a service to run and moderate.
+23. **A stock-selection strategy type is later, unscheduled** (2026-10-27): a type that ranks a universe of stocks on chosen measures and holds the top names, rebalanced on a schedule. A universe without survivorship bias, with delisted stocks and fundamentals as they were known at the time, needs licensed data, which Proofstone doesn't ship. Until then, equity strategies come in as series from the tools that build them (sleeve from a series, or runs from other tools, such as Trial Folio's). In 1.0.0 it would have added weeks of work on data most users don't have.
+24. **The app's navigation is a sidebar** (2026-10-27): the modules listed with each one's screens beneath them, collapsing to icons to give charts and wide tables room; any module can be hidden except the study tracker, since every run counts; and tabs within a screen switch among views of one thing. A tab bar of modules that could be turned on and off would suit a flat set of screens, but not modules with screens beneath them, and offering both would have doubled the design and testing of every screen. Portfolio Workbench uses a left rail too.
+
 ### Open decisions
 
-1. **A household's taxes, lot by lot, in 1.0.0.** S22 computes after-tax returns by tax bracket and account type. Comparing allocations for a household needs more: each holding taxed lot by lot by its character (a stock fund, a bond fund, a gold fund at the collectibles rate, a Section 1256 contract, T-bills), first in, first out, with wash sales and losses carried forward; harvesting losses into a substitute fund; each holding traded on its own schedule; and a taxable account and a tax-deferred one added together as a household. As a new slice, S28, after S22, it would land with 0.7.0 and add about 1 to 2 weeks; decided 6 and 11 put every test of the owner's research in 1.0.0, and the research compares allocations this way. After 1.0.0, Proofstone's after-tax results would stay at S22's until then.
-   **Proposed default:** S28 in 1.0.0, with 0.7.0.
-2. **The run module's scope and timing.** Its parts: today's signals from the strategy types, order lists, the trade journal, positions and account values read from brokers' reports with read-only credentials, fills against the quotes, and actual returns as forward records. After 1.0.0 it adds nothing to the 3 months; in 1.0.0 it would add several weeks. Order lists that the user enters at the broker keep Proofstone from handling orders, or credentials that can trade. Placing orders through brokers' interfaces would save that step, but would hold such credentials and widen the securities lawyer's review.
-   **Proposed default:** after 1.0.0, off until the user turns it on, with order lists only and no order placement.
-3. **The registry's form and timing.** An author would publish a registration, by choice, as a file with its hash, to a public git repository or a page of The Prompted Portfolio, whose commit dates it before the study runs, and add its forward records later from the same files. That needs no hosted service, so Proofstone stays local first. A hosted registry with accounts would be easier to browse and search, but it's a service to run and moderate.
-   **Proposed default:** after 1.0.0, published as files to a public git repository, with no hosted service.
-4. **A stock-selection strategy type.** A type that ranks a universe of stocks on chosen measures and holds the top names, rebalanced on a schedule. The data is the hard part: a universe without survivorship bias, with delisted stocks and fundamentals as they were known at the time, needs licensed data, which Proofstone doesn't ship. Without it, equity strategies come in as series from the tools that build them (sleeve from a series, or runs from other tools, such as Trial Folio's).
-   **Proposed default:** later, unscheduled, after 1.0.0.
+None.
